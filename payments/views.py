@@ -29,13 +29,11 @@ def pay(request):
         qr.add_data(f'bitcoin:{settings.WALLET}?amount={total}&label={label}')
         qr.make(fit=True)
         img = qr.make_image(fill_color='black', back_color='white')
-        img.save(f'/home/enzo/btcpay/media/images/{name}', 'PNG')
+        img.save(f'/home/enzo/btcpay/images/{name}.png', 'PNG')
+        pag = Pagamentos.objects.create(image=(f'{name}.png'))
         
-        context = {
-            'name': name
-        }
-        
-    return render(request, 'payments/home.html', context)
+    return render(request, 'payments/home.html', {'pag': pag})
+
 
 
 
